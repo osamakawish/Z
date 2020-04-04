@@ -1,5 +1,2 @@
-# Modular Tag
+# Z Customs
 
-Modular Tag (MT) consists of 3 components:
-
-1. The 
