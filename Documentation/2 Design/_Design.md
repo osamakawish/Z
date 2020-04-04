@@ -41,7 +41,7 @@ Similar to the box model in CSS. The concept of position is added as part of the
 
 The padding and margin can also be used for alignment.
 
-![](MSS Box Model.png)
+![](MSS_Box_Model.png)
 
 It's worth noting that these all use both % and pixels for measurement. A float of 100% moves the object to the left.
 
@@ -181,7 +181,7 @@ behaviour { mouse { click: { @counter.content++; } } }
 </body>
 ```
 
-![](Increment Example.png)
+![](Increment_Example.png)
 
 Visibility doesn't need to change. The text won't be overflowing the boundary, we want the button to show, and it is on restrict by default.
 
