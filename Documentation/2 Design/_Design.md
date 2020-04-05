@@ -9,7 +9,7 @@ A **module** is a type of element in a webpage such as a paragraph, heading, ima
 - ***Everything is with respect to the parent element in M.*** If you want to fix something in the body, move it inside the body element. Otherwise, it will remain fixed ***within its parent***. If its parent moves, it will inevitable move along with it. There are numerous reasons for this:
   - **Semantic Consistency.** This is to say we maintain the idea of what it means to be a parent element. Allowing users to control the position of a label in the entire body of the webpage (as in CSS's fixed/sticky positioning) inside a div raises the question of why the label is placed in the div and simply not placed in the body, where it can be moved freely.
   - **Aesthetic appeal.** Concepts like overflow make no sense from an aesthetic point of view. Their presence offers users the freedom, should they choose to use it, but it is, aesthetically absurd - the overflow of text raises the question of why not simply stretch the parent element to keep up with the text. Concepts like overflow also defy the rule of semantic consistency - why have the block of div with its dimensions as parent of the element if the text was simply going to overflow it? The alternative solution here is `height:flex` which updates the height of the element as the content changes.
-  - **Common Intent.** Let's say I want a graphical drawing element. Should I position and control the curve relative to the body, or to the element itself? In general, as far as common intentions go for having such a graphical drawing element, controlling the points on the curves relative to the element itself makes far more sense. Of course, the code for behaviour of the mouse clicks will consider the click position relative to the element itself as well. The common intent covers the common intention for why an element is used in the way it is.
+  - **Common Intent.** Let's say I want a graphical drawing element. Should I position and control the curve relative to the body, or to the element itself? In general, as far as common intentions go for having such a graphical drawing element, controlling the points on the curves relative to the element itself makes far more sense. Of course, the code for behaviour of the mouse presss will consider the press position relative to the element itself as well. The common intent covers the common intention for why an element is used in the way it is.
   - **Ease of Development.** This is a point that argues it is easier on the developers coding the parsers of M to have an easier time. When everything is relative to the parent, they only need to think about how an element relates to its parent, as opposed to the whole picture. Furthermore, this forces web developers to write readable and intuitive code, as they can't simply place an element inside a div and hope to move it outside the element. 
 - Many CSS concepts are removed or changed for simplicity. 
   - CSS's **Display** isn't included. Everything is the CSS inline-block by default. Setting width and height to `flex` will make anything inline. To create a block, simply add a line break.
@@ -23,17 +23,13 @@ A **module** is a type of element in a webpage such as a paragraph, heading, ima
 
 
 
-## Coordinate System
-
-
-
 ## Traits
 
 The trait types of an element categorize its traits to make it easier to control the overall layout of the element. M has 4 trait types: placement, appearance, and behaviour.
 
 **Placement** affects the overall positioning, sizing, and movement of the element. 
 **Appearance** controls the appearance of the element.
-**Behaviour** affects how the element behaves in various situations (on hover, on click, etc.)
+**Behaviour** affects how the element behaves in various situations (on hover, on press, etc.)
 
 ### Placement
 
@@ -45,7 +41,7 @@ The padding and margin can also be used for alignment.
 
 It's worth noting that these all use both % and pixels for measurement. A float of 100% moves the object to the left.
 
-* **Spread.** Determines the default spread of child elements. `0` represents no spread. `1` represents equally spread out elements. 
+* **Spread.** Determines the default spread of child elements. `0` represents no default spread. `1` represents equally spread out elements. 
 * **Alignment.** Relative positioning of child elements to content. (Note: there's no `text-align`. If the block is a text element, it will be implicitly aligned according to the alignment). (From *edge of content* to within padding)
 * **Padding.** Controls how close the content is allowed to get to edges of the block. (From *edge of block* to *edge of content*)
 * **Size.** The size of the block itself, containing the padding with the content. If the horizontal or vertical padding is greater than or equal to a total of 100%, then the content is distributed in proportion of the padding ratio. (ie. If the horizontal padding is left 30% and right 70%, the content is centered to 30% from the left). Use `size.x` for width and `size.y` for height. (Total size of *block*)
@@ -130,8 +126,8 @@ The visibility model affects how the content is shown or hidden.
 * scroll.: adds a scroll bar when content is larger than its maximum width or height
   * auto: shows the scroll bar only when necessary
   * fix: always shows the scroll bar
-* collapse
-* hide
+* collapse: hides the element as if it was never there.
+* hide: hides the element as if it is an invisible block which other elements cannot pass through.
 * restrict: restricts the content to remain within the padding, without ever adding a scrollbar.
 
 Note that restrict does nothing when either height or width are set to flex.
@@ -140,9 +136,13 @@ Note that restrict does nothing when either height or width are set to flex.
 
 There are two main colours: fore and back. Besides them, the rest is determined by the module.
 
+#### Font
+
+Sets the font of any internal text.
+
 ### Behaviour
 
-The behaviour affects the control's behaviour in various situations . such as hovering, clicking, etc.
+The behaviour affects the control's behaviour in various situations . such as hovering, pressing, etc.
 
 ### Example
 
@@ -169,7 +169,7 @@ appearance { border: #f 1px; }
 button {
 placement { pos: 200px 300px; size.x: 200px; }
 appearance { fore: #ff2b2b; back: #3; }
-behaviour { mouse { click: { @counter.content++; } } }
+behaviour { mouse { press: { @counter.content++; } } }
 }
 ```
 
@@ -189,29 +189,29 @@ Visibility doesn't need to change. The text won't be overflowing the boundary, w
 
 * `placement`
   * Position
-    * Relative Position: `rel rel.x rel.y` 
-    * Absolute Position: `abs abs.x abs.y`
-    * Final Position (cannot be edited): `pos pos.x pos.y`
-    * Z-Index: `z`
-  * Margin: `margin margin.x margin.y`
-  * Size: `size size.x size.y`
-  * Padding: `pad pad.x pad.y`
-  * Alignment: `align align.x align.y` 
-  * Drag: `drag drag.x drag.y`
+    * Relative Position: `rel rel.x rel.y` (area span span)
+    * Absolute Position: `abs abs.x abs.y` (area span span)
+    * Final Position (cannot be edited): `pos pos.x pos.y` (area span span)
+    * Z-Index: `z` (int)
+  * Margin: `margin margin.x margin.y` (area span span)
+  * Size: `size size.x size.y` (area span span)
+  * Padding: `pad pad.x pad.y` (area span span)
+  * Alignment: `align align.x align.y` (area span span)
+  * Drag: `drag drag.x drag.y` (area span span)
 * `appearance`
-  * Visibility: `visibility`
-  * Border: `border`
-  * Foreground Colour: `fore`
-  * Background Colour: `back`
+  * Visibility: `visibility` (enum)
+  * Border: `border` (colour span[4])
+  * Foreground Colour: `fore` (colour)
+  * Background Colour: `back` (colour)
 * `behaviour`
-  * Mouse: `mouse`
-    * Click: `click`
-    * Double-Click: `click2`
-    * Hover: `hover`
-    * Move: `move`
-    * Scroll: `scroll`
-  * Keyboard: `key`
-  * Time: `time`
+  * Mouse: `mouse` [source]
+    * Press: `press` [event]
+    * Double-Press: `press2` [event]
+    * Hover: `hover` [event]
+    * Move: `move` [event]
+    * Scroll: `scroll` [event]
+  * keyboard: `key` [source]
+  * Time: `time` [source]
 
 ## Code Insertion
 
@@ -226,43 +226,6 @@ placement { rel.x: {rel.x+20}px; }
 ```
 
 The programming language used by M will be covered later. 
-
-# Modular Programming
-
-The programming in M is purely event driven. 
-
-## Element Access
-
-In M, the elements are defined as follows:
-
-```html
-<body>
-    <int i>5</int> <!-- 1 -->
-    <string str>A string.</string> <!-- 2 -->
-    <double,string ,st>3.1</double,string> <!-- 3 -->
-    <string str>Another string with a previous "variable"</string> <!-- 4 -->
-</body>
-```
-
-Here's a quick explanation of the code above:
-
-1. An integer element `i` with the number 5.
-2. A string element `str` associated to "A string.".
-3. An element associated to two tags: one double, one string. The string part has the variable `st`, the double does not.
-4. A reuse of the previous variable `str`. 
-
-Accessing element variables is done with `@`. Accessing element tags is done directly by explicit stating the tag. Self-referencing is done through the `@`.
-
-```css
-string @str { /* all string variables named "str" */
-    behaviour {
-        mouse:click {
-            @ += "r"; /* appends 'r' to the end of the string on click */
-            int @i++; /* incremenets integer "i" by 1 */
-        }
-    }
-}
-```
 
 ## Composition
 
@@ -295,7 +258,7 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 ```css
 @child {
 	placement {
-        @\body z: 3; /* alternatively, use \\ in this case */
+        \body z: 3; /* alternatively, use \\ in this case */
     }
 }
 ```
@@ -303,3 +266,85 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 ![](Z_Index_Composition.png)
 
 You may also do this for traits: `x\pos: 12px`. 
+
+# Modular Programming
+
+The programming in M is primarily event driven. Functional programming is added for minimizing reusable code.
+
+## Element Access
+
+In M, the elements are defined as follows:
+
+```html
+<body>
+    <int i>5</int> <!-- 1 -->
+    <string str>A string.</string> <!-- 2 -->
+    <double,string ,st>3.1</double,string> <!-- 3 -->
+    <string str>Another string with a previous "variable"</string> <!-- 4 -->
+</body>
+```
+
+Here's a quick explanation of the code above:
+
+1. An integer element `i` with the number 5.
+2. A string element `str` associated to "A string.".
+3. An element associated to two tags: one double, one string. The string part has the variable `st`, the double does not.
+4. A reuse of the previous variable `str`. 
+
+Accessing element variables is done with `@`. Accessing element tags is done directly by explicit stating the tag. Self-referencing is done through the `@`.
+
+```css
+string @str { /* all string variables named "str" */
+    behaviour {
+        mouse.press {
+            @ += "r"; /* appends 'r' to the end of the string on press */
+            int @i++; /* incremenets integer "i" by 1 */
+        }
+    }
+}
+```
+
+## Events
+
+For each type of input for events, there’s 2 tenses: present and past tense. 
+
+Past tense events can be used in other methods, while present tense events can be edited. 
+
+#### Events Structure
+
+Events have two tenses: present and past. When an event occurs:
+
+1. The inputs are stored, if any, into sets with same name as the past tense, if a present tense behaviour is defined.
+2. The present tense behaviour is called, if defined.
+
+For example, during a mouse press event, if the left mouse button is clicked, and the
+
+##### Notation
+
+The notation for the event structure is as follows:
+
+`present_tense:past_tense(inputs)`
+
+Replace with nothing if you don’t require a past or present tense.
+
+### Mouse Events
+
+* Press `press:pressed(button)`.
+* Double-Press `press2:pressed2(button)`
+* Move `move:moved(double[2])`
+* Hold `hold:held(button,double[2])`
+* Release `release:released(button)`
+
+### Key Events
+
+* Press `press:pressed(key)`
+* Release `release:released(key)`
+* Hold `hold:held(key)`
+
+### Time Events
+
+* Constructor with Call Operator `@:@(time t=0)`
+* Zero `:zero`
+* Now `:now`
+* At `at:is(time t)`
+* Since `after:passed(time t)`
