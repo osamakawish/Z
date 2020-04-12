@@ -113,7 +113,7 @@ Maximum Content Size = Size - Padding.
 Colour uses both RGB and RGBA formats. The colouring code is also generalized.
 
 * `#G`: Single Precision Greyscale.
-* `#GG`: Double Precision Greyscale.
+* `#GA`: Single Precision Transparent Greyscale.
 * `#RGB`: Single Precision Colour.
 * `#RGBA`: Single Precision Transparent Colour.
 * `#RRGGBB`: Double Precision Colour.
@@ -258,14 +258,12 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 ```css
 @child {
 	placement {
-        \body z: 3; /* alternatively, use \\ in this case */
+        @\body z: 3; /* alternatively, use @\\ in this case */
     }
 }
 ```
 
 ![](Z_Index_Composition.png)
-
-You may also do this for traits: `x\pos: 12px`. 
 
 # Modular Programming
 
@@ -276,11 +274,11 @@ The programming in M is primarily event driven. Functional programming is added 
 In M, the elements are defined as follows:
 
 ```html
-<body>
-    <int i>5</int> <!-- 1 -->
-    <string str>A string.</string> <!-- 2 -->
-    <double,string ,st>3.1</double,string> <!-- 3 -->
-    <string str>Another string with a previous "variable"</string> <!-- 4 -->
+<body/>
+    <int i/>5</int> <!-- 1 -->
+    <string str/>A string.</string> <!-- 2 -->
+    <double,string ,st/>3.1</double,string> <!-- 3 -->
+    <string str/>Another string with a previous "variable"</string> <!-- 4 -->
 </body>
 ```
 
@@ -303,6 +301,10 @@ string @str { /* all string variables named "str" */
     }
 }
 ```
+
+Note that the type of the variable (`string`) is mentioned alongside the identity/name of the variable (`str`). This is to clearly access the string methods under behaviour, and update the appropriate strings. Thus, the programming in Z is strongly typed. 
+
+> The reason for strong-typing is this: For efficiency, design patterns are often included in the `head` tag. However, as of this point, it’s unclear when the variables will be used and with what types. As such, the variables in the design pattern need to be strongly typed. Even if the design is included at the end of the page, specific methods need to be accessed, encouraging the requirement for string typing. 
 
 ## Events
 
@@ -348,3 +350,10 @@ Replace with nothing if you don’t require a past or present tense.
 * Now `:now`
 * At `at:is(time t)`
 * Since `after:passed(time t)`
+
+Arrays start with 0 or 1 depending on how they’re named. They start with 0 if the name’s first letter is lower case, and 1 if it’s upper case.
+
+## Traits
+
+Traits are general type-specific.
+
