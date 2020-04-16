@@ -1,6 +1,6 @@
-# Modular Styling
+# Control Styling
 
-A **module** is a type of element in a webpage such as a paragraph, heading, image, or div. In short, they're the tags. But modules are a little more general here. M allows users to create their own modules/tags. Modules allow users to create custom web components, like dropdown menus. The syntax for styling is based heavily on CSS, with some modifications for simplicity.
+A **control** is a type of element in a webpage such as a paragraph, heading, image, or div. In short, they're the tags. But controls are a little more general here. M allows users to create their own controls/tags. Controls allow users to create custom web components, like dropdown menus. The syntax for styling is based heavily on CSS, with some modifications for simplicity.
 
 (As of March 27, 2020, file extensions .mc and .mdc are both available from a check on Wikipedia.)
 
@@ -19,7 +19,9 @@ A **module** is a type of element in a webpage such as a paragraph, heading, ima
   - CSS's **Outline** is largely useless, and can be done using already existing code. It is removed. (An external div with different padding colour can be used to implement this.)
   - CSS's **Fixed** and **Sticky** position options are removed. In M, there is no options for restyling position. Instead, a `drag` property is added under `placement` to control the movement of elements. This, I considered to be a neater alternative. The entire concept of **Position** works differently in M. You state the value of the desired position of the element, as again, there is no option for restyling the type of the position.
   - CSS's **Overflow** property is removed. There is no option for overflow. It is aesthetically absurd. A similar alternative is the `height: flex` value. Though this is different than overflow as it updates height based on its contents. 
-  - 
+- ***The programming is purely event-driven OOP.*** All programming is primarily focused on event handling. To deal with repeatable code, OOP is added. 
+  - Background programming such as timers/clocks are handled with controls mentioned in the head.
+- (Note: It’ll likely be cleaner if `|placement` is moved outside and the placement of all variables is addressed at once, as opposed to variable by variable).
 
 
 
@@ -83,8 +85,8 @@ The z-index in M works like this:
 The z-index is set as follows:
 
 ```css
-element {
-placement {z: 2;}
+|placement {
+element {z: 2;}
 }
 ```
 
@@ -134,7 +136,7 @@ Note that restrict does nothing when either height or width are set to flex.
 
  The appearance is about the colours and the border, which control the overall appearance of the element.
 
-There are two main colours: fore and back. Besides them, the rest is determined by the module.
+There are two main colours: fore and back. Besides them, the rest is determined by the control.
 
 #### Font
 
@@ -146,30 +148,39 @@ The behaviour affects the control's behaviour in various situations . such as ho
 
 ### Example
 
-Colour #f is equivalent to #fff which is equivalent to #ffffff. @counter gets an element with an "id" of "counter". Similarly #3 = #333 = #333333.
+Colour `#f` is equivalent to `#fff` which is equivalent to `#ffffff`. `@counter` gets an element with an "id" of "counter". Similarly `#3 = #333 = #333333`.
 
 ```css
-body {
-placement { back: #e3e3e3; }
+|placement {
+    body {
+        back: #e3e3e3;
+    }
+    
+    int, button {
+        pos.x: 50% 50%;
+        pad: 50%;
+        size: 400px 200px;
+    }
+    
+    @counter {
+        pos: 200px 50px;
+    }
+    
+    button {
+        pos: 200px 300px;
+        size.x: 200px;
+    }
 }
 
-int, button {
-placement {
-	X: 50% 50%; /* centralize items horizontally on page */
-    pad: 50%; /* centralize text horizontally an vertically */
-	size: 400px 200px; /* width = 400px and height = 200px */
-}
+|appearance {
+    @counter { border: #f 1px; }   
+    button { fore: #ff2b2b; back: #3; }
 }
 
-@counter { 
-placement { pos: 200px 50px; }
-appearance { border: #f 1px; }
-}
-
-button {
-placement { pos: 200px 300px; size.x: 200px; }
-appearance { fore: #ff2b2b; back: #3; }
-behaviour { mouse { press: { @counter.content++; } } }
+|behaviour {
+    button {
+        mouse { press: { @counter.content++; } }
+    }
 }
 ```
 
@@ -220,8 +231,8 @@ For code insertion in any part of the code, use `{ }`.
 Example:
 
 ```css
-button {
-placement { rel.x: {rel.x+20}px; }
+|placement {
+    button { rel.x: {rel.x+20}px; }
 }
 ```
 
@@ -257,7 +268,7 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 
 ```css
 @child {
-	placement {
+	|placement {
         @\body z: 3; /* alternatively, use @\\ in this case */
     }
 }
@@ -265,7 +276,7 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 
 ![](Z_Index_Composition.png)
 
-# Modular Programming
+# Control Programming
 
 The programming in M is primarily event driven. Functional programming is added for minimizing reusable code.
 
@@ -289,12 +300,12 @@ Here's a quick explanation of the code above:
 3. An element associated to two tags: one double, one string. The string part has the variable `st`, the double does not.
 4. A reuse of the previous variable `str`. 
 
-Accessing element variables is done with `@`. Accessing element tags is done directly by explicit stating the tag. Self-referencing is done through the `@`.
+Accessing element variables is done with `@`. Accessing element tags is done directly by explicit stating the tag. Self-referencing is done through the `@`. Events are accessed with the colon `:`. 
 
 ```css
-string @str { /* all string variables named "str" */
-    behaviour {
-        mouse.press {
+|behaviour {
+    string @str { /* all string variables named "str" */
+        mouse:press {
             @ += "r"; /* appends 'r' to the end of the string on press */
             int @i++; /* incremenets integer "i" by 1 */
         }
@@ -312,6 +323,8 @@ For each type of input for events, there’s 2 tenses: present and past tense.
 
 Past tense events can be used in other methods, while present tense events can be edited. 
 
+
+
 #### Events Structure
 
 Events have two tenses: present and past. When an event occurs:
@@ -325,7 +338,7 @@ For example, during a mouse press event, if the left mouse button is clicked, an
 
 The notation for the event structure is as follows:
 
-`present_tense:past_tense(inputs)`
+`presentTense:pastTense(inputs)`
 
 Replace with nothing if you don’t require a past or present tense.
 
@@ -346,14 +359,25 @@ Replace with nothing if you don’t require a past or present tense.
 ### Time Events
 
 * Constructor with Call Operator `@:@(time t=0)`
-* Zero `:zero`
+* Time Zero `:zero`
 * Now `:now`
 * At `at:is(time t)`
 * Since `after:passed(time t)`
 
 Arrays start with 0 or 1 depending on how they’re named. They start with 0 if the name’s first letter is lower case, and 1 if it’s upper case.
 
-## Traits
+### Specific Events
 
-Traits are general type-specific.
+**Specific events** are events that are specific to a given control type. 
+
+```css
+behaviour {
+    combo {
+        /* Selects item at i'th position */
+        .select(int i) {
+            
+        }
+    }
+}
+```
 
