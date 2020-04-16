@@ -338,23 +338,23 @@ For example, during a mouse press event, if the left mouse button is clicked, an
 
 The notation for the event structure is as follows:
 
-`presentTense:pastTense(inputs)`
+`pastTense:presentTense(inputs)`
 
 Replace with nothing if you don’t require a past or present tense.
 
 ### Mouse Events
 
-* Press `press:pressed(button)`.
-* Double-Press `press2:pressed2(button)`
-* Move `move:moved(double[2])`
-* Hold `hold:held(button,double[2])`
-* Release `release:released(button)`
+* Press `pressed:press(button)`.
+* Double-Press `pressed2:press2(button)`
+* Move `moved:move(double[2])`
+* Hold `held:hold(button,double[2])`
+* Release `released:release(button)`
 
 ### Key Events
 
-* Press `press:pressed(key)`
-* Release `release:released(key)`
-* Hold `hold:held(key)`
+* Press `pressed:press(key)`
+* Release `released:release(key)`
+* Hold `held:hold(key)`
 
 ### Time Events
 
@@ -374,7 +374,7 @@ Arrays start with 0 or 1 depending on how they’re named. They start with 0 if 
 behaviour {
     combo {
         /* Selects item at i'th position */
-        .select(int i) {
+        @.select(int i) {
             
         }
     }
