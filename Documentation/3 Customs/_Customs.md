@@ -1,21 +1,5 @@
 # Z Customs
 
-Z Customs is for creating custom controls. 
-
-* Name
-* Custom Traits
-* Hull (The main section covering important details for the file)
-  * Imports
-  * Inheritance
-  * Anatomy
-* Layout
-  * Customization
-  * Fusion
-  * Child/Parent Items
-* Design
-  * Custom Traits
-  * Custom Events
-
 ## Comments
 
 
