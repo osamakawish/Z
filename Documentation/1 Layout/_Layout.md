@@ -131,13 +131,15 @@ The above contains the Lorem Ipsum dummy text. The `(1)` argument shows the firs
 
 #### Clause
 
-A clause represents a section of a sentence in Z. It’s an optional child of a paragraph. There’s no difference in formatting in clauses than paragraphs. They can be edited differently in their [design](../2 Design/_Design.md) as desired. They are shortened to a `cl` tag.
+A clause represents a part of a sentence in Z. It’s an optional child of a paragraph. There’s no difference in formatting in clauses than paragraphs. They can be edited differently in their [design](../2 Design/_Design.md) as desired. They are shortened to a `cl` tag.
 
 ```html
 <p/>
 	A <cl/>clause</cl> is a <cl/>section of a paragraph</cl>. They can be edited as desired in the design section.
 </p>
 ```
+
+> For those of HTML background, clauses replace spans. The concept of a span is used for measurements.
 
 #### Quote
 
