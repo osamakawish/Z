@@ -6,7 +6,9 @@
 
 ## Name
 
-To initiate a control with some desired name `custom`, create a new file named `custom.zc`.
+To initiate a control with some desired name `custom`, create a new file named `custom.zc`. 
+
+Type names can only start with letters and can end with numbers or symbols. This enforces a camel case notation. The only general exception to the type naming rule will be colours, which generally begin with `#`. 
 
 ## Hull
 

@@ -42,7 +42,7 @@ Tags can also have inputs when required.
 ```html
 <tag [type](input)>
 <tag [type](input)/>
-    Text.
+    Content.
 </tag>
 ```
 
@@ -59,17 +59,13 @@ Tags can also have inputs when required.
 >
 > Overall, I feel this will make the change in notation easier to learn.
 
-
-
 ### Anatomy
 
 Anatomy controls isolate the main parts of the webpage from one another. They’re at the fundamental level of the web page.
 
 #### Head
 
-This contains the page title and an excerpt. The excerpt is used for searches. 
-
-In addition, it’s used to link the associated design files to the page and import any custom designed controls, which we’ll get to later. 
+The head contains the background and preliminary information for a page’s programming and layout.
 
 ```html
 <head/>
@@ -80,7 +76,13 @@ In addition, it’s used to link the associated design files to the page and imp
 </head>
 ```
 
+This contains the page title and an excerpt. The excerpt is used for searches. 
+
+In addition, it’s used to link the associated design files to the page and import any custom designed controls, which we’ll get to later. 
+
 #### Body
+
+The body contains the main content of the page. All the text, images, navigation, etc. goes here. However, it’s generally not necessary to make any design changes just yet.
 
 ```html
 <body/>
@@ -88,13 +90,134 @@ In addition, it’s used to link the associated design files to the page and imp
 </body>
 ```
 
+Everything below goes into the body section.
 
+### Text
+
+#### Headings
+
+Headings are for grouping paragraphs under a similar context. They’re large text to capture the representation the offer the text. They’re written as `h` followed by a number. There’s a total of 6 different headings.
+
+```html
+<body/>
+    <h1/>Heading 1</h1>
+	<h2/>Heading 2</h2>
+	<h3/>Heading 3</h3>
+	<h4/>Heading 4</h4>
+	<h5/>Heading 5</h5>
+	<h6/>Heading 6</h6>
+</body>
+```
+
+![](headings.png)
+
+By default, the headings are in Arial, and the paragraphs (which are next) will be in Times New Roman. Again, you will have the option to change this later.
+
+#### Paragraphs
+
+Paragraphs are another tag in Z. They’re represented and shortened to the `p` tag due to ease of use, given how common they are.
+
+```html
+<body/>
+    <p/>
+        <LoremIpsum (1)>
+	</p>
+</body>
+```
+
+![](paragraphs.png)
+
+The above contains the Lorem Ipsum dummy text. The `(1)` argument shows the first paragraph. The above text is not to scale with the headings. 
+
+#### Clause
+
+A clause represents a section of a sentence in Z. It’s an optional child of a paragraph. There’s no difference in formatting in clauses than paragraphs. They can be edited differently in their [design](../2 Design/_Design.md) as desired. They are shortened to a `cl` tag.
+
+```html
+<p/>
+	A <cl/>clause</cl> is a <cl/>section of a paragraph</cl>. They can be edited as desired in the design section.
+</p>
+```
+
+#### Quote
+
+A quote is a special type of a paragraph with it’s custom formatting design for quotations.
+
+```html
+<p/>Here's a quote:</p>
+<quote ("~ Julius Caesar")/>It is easier to find men who will volunteer to die, than to find those who are willing to endure pain with patience.</quote>
+```
+
+![](quote.png)
+
+#### Text Formatting
+
+Text formatting involves changing the colour or text or making it bold, italicized, underlined, or strikethrough. 
+
+```html
+<p>
+    <#red/>This text is red</#red>.
+</p>
+```
+
+![](text_colouring.png)
+
+Various coloring options will be added. 
+
+You can always create your own colours using the hexadecimal coloring code. The coloring in Z uses both RGB and RGBA formats. The colouring code is also generalized as follows
+
+* `#G`: Single Precision Greyscale.
+* `#GA`: Single Precision Transparent Greyscale.
+* `#RGB`: Single Precision Colour.
+* `#RGBA`: Single Precision Transparent Colour.
+* `#RRGGBB`: Double Precision Colour.
+* `#RRGGBBAA`: Double Precision Transparent Colour.
+
+The following example covers **bold**, *italics*, <u>underline</u>, and ~~strikethrough~~.
+
+```html
+<p/>
+   <b/>Bold.</b> <i/>Italics.</i> <u/>Underline.</u> <s/>Strikethrough.</s>
+</p>
+```
+
+![](text_formatting.png)
+
+#### Font
+
+Font can be changed through an inline design edit.
+
+```html
+<p>
+    This is the default font for paragraphs.
+</p>
+
+<p |style {font: "Calibri";}/>
+	This paragraph is in Calibri font.
+</p>
+```
+
+![](font.png)
+
+The style bit will be explained later in the design section. But what you’ve seen now is an example of an **inline design edit**.
 
 ### Numbers
 
 #### Int
 
+Basic integers, includes negative numbers and 0 if desired. For integer ranges, use `int[a:b]`. This gets the integers between a and b. 
 
+```html
+<body/>
+    <int/>-12</int> <int/>0</int> <int/>284</int>
+	<int [0]/>0</int> <int [0:12]/>6</int> <int [0:]/>83</int> <int [:0]/>-50</int> 
+<!-- <int [5]/>0</int> will be ignored and raise an error. Does not qualify under its type. -->
+<!-- <int [1:]/>0</int> will be ignored and raise an error. Does not qualify under its type. -->
+<!-- <int [-12:8]/>63</int> will be ignored and raise an error. Does not qualify under its type. -->
+</body>
+```
+
+There’s no special formatting for integers. They’re treated as individual clauses.
 
 #### Floats
 
@@ -112,51 +235,9 @@ Span are for measurements. They are only read if they end in the defined measura
 <span [int]('px')/>12px</span>
 ```
 
-Note that if it does contain only numbers, the units will be added.
+Note that if it does contain only numbers, the units will be added to the end by default. You can change the formatting later when you get to the [Design](../2 Design/_Design.md) section.
 
 The `[int]` denotes the span is an integer type. These are for templated types.
-
-### Text
-
-#### String
-
-
-
-#### Headings
-
-
-
-#### Paragraphs
-
-
-
-#### Clause
-
-A clause represents a section of a sentence in Z.
-
-
-
-#### Text Formatting
-
-Text formatting involves changing the colour or text or making it bold, italicized, underlined, or strikethrough. 
-
-```html
-<p>
-    <#red/>This text is red</#red>.
-</p>
-```
-
-![](text_colouring.png)
-
-The following example covers **bold**, *italics*, <u>underline</u>, and ~~strikethrough~~.
-
-```html
-<p/>
-   <b/>Bold.</b> <i/>Italics.</i> <u/>Underline.</u> <s/>Strikethrough.</s>
-</p>
-```
-
-![](text_formatting.png)
 
 ### Lists
 
@@ -306,4 +387,7 @@ For example:
 <int @i/>-6</int>
 ```
 
-The concept of variables is a good place to conclude the layout components of Z, as variables only necessary for the design component.
+## Inline Design
+
+Design changes can be made inline. This feature is offered so as to not create a whole separate file for when there’s only minor changes to be made. 
+
