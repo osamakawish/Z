@@ -249,7 +249,7 @@ References link to external pages or images.
 
 ## Code Insertion
 
-
+Code can generally be inserted anywhere with `{ }`. For this, you’ll need to go over the [programming](../4 Programming/_Programming).
 
 ## Fusion
 
@@ -290,11 +290,7 @@ For another example, a **menu** is a list of buttons that link to a different pa
 </drop menu>
 ```
 
-
-
-Rules for control fusion:
-
-* 
+Rules for control fusion: Similar to inheriting both classes at the same time. 
 
 ## Variables
 
