@@ -12,7 +12,8 @@ A **control** is a type of element in a webpage such as a paragraph, heading, im
   - **Common Intent.** Let's say I want a graphical drawing element. Should I position and control the curve relative to the body, or to the element itself? In general, as far as common intentions go for having such a graphical drawing element, controlling the points on the curves relative to the element itself makes far more sense. Of course, the code for reaction of the mouse press will consider the press position relative to the element itself as well. The common intent covers the common intention for why an element is used in the way it is.
   - **Ease of Development.** This is a point that argues it is easier on the developers coding the parsers of M to have an easier time. When everything is relative to the parent, they only need to think about how an element relates to its parent, as opposed to the whole picture. Furthermore, this forces web developers to write readable and intuitive code, as they can't simply facet an element inside a div and hope to move it outside the element. 
 - Many CSS concepts are removed or changed for simplicity. 
-  - CSS's **Display** isn't included. Everything is the CSS inline-block by default. Setting width and height to `flex` will make anything inline. To create a block, simply add a line break.
+  - ~~CSS's **Display** isn't included. Everything is the CSS inline-block by default. Setting width and height to `flex` will make anything inline. To create a block, simply add a line break.~~
+    - Replaced with `|facet flow`. Use `flow:x` for inline and `flow:y` for block. Inline-blocks overflow their lines and are not a simple option. Paragraphs are, in a sense, divided into “hidden tags” which are lines. The inline-block option overflows these hidden tags. The reasoning for overflowing parent elements is explained below, a few points later. 
   - CSS's **Text-Align** not included. Use the `align` property of `p` (paragraph), or `h1` or `li`. It will generally be implied that each word needs to be separately aligned.
   - CSS's **Static** position not included. Positions are relative by default.
   - CSS's **Float** property is removed. To make an item float to the right end of its parent, set `x` to `100%` in `facet`.
@@ -50,6 +51,7 @@ It's worth noting that these all use both % and pixels for measurement. A float 
 * **Border.** Controlled in `styles`. Precisely speaking, it's outside the padding (as opposed to being inside or along/over the edge of padding). Use `border.x` and `border.y` for horizontal and vertical components respectively. If greater than margin, it will be equal to the size of the margin. (Line outside of *block*, inside of *margin*.)
 * **Margin.** The extra spacing away from the block that nearby elements must provide to this specific block. Restricts the border. (Space from the *block*, to the *nearest possible sibling element*)
 * **Position.** Either the relative or final position may be set, but not both. If both are set, then M will take the one defined later. The relative position will change as the final is changed and vice versa. `abs abs.x abs.y`  denote the absolute position traits of the element, and cannot be changed. `rel rel.x rel.y` denote the relative positions. For final position, use `pos pos.x pos.y`. 
+* **Flow.** Represents the continuity of the element relative to its previous sibling element (if any). 
 
 The border is a part of the style, not the facet in M.
 
@@ -107,6 +109,21 @@ Controls how the element moves relative to the scrolling of its parent element.
 * Use `drag: auto` for the CSS sticky feature. Note: the sticky is only implemented relative to the parent element.
 
 Again, since everything is relative to the parent item, the drag is only compared to the scrolling of the parent item, not the page.
+
+#### Flow
+
+Represents whether the content of the element flow vertically or horizontally. 
+
+Examples:
+
+* The elements in a paragraph flow horizontally. So the paragraph element has `flow:x`.
+* The elements in a body flow vertically. So the body element has `flow:y`. 
+
+All elements will use remaining space in the other direction of their parent element when filled.
+
+![](flow.png)
+
+Note the order in which the numbers are written. In `flow:x`, the numbers are in order from left to right. In `flow:y`, the numbers are ordered from left to right. In `flow: y`, they’re ordered top to bottom.
 
 ### Style
 
@@ -216,6 +233,7 @@ Visibility doesn't need to change. The text won't be overflowing the boundary, w
   * Padding: `pad pad.x pad.y` (area span span)
   * Alignment: `align align.x align.y` (area span span)
   * Drag: `drag drag.x drag.y` (xbool[2] xbool xbool)
+  * Flow: `flow` (axis)
 * `style`
   * Visibility: `visibility` (enum)
   * Scroll: `scroll` (xbool - extended Boolean)

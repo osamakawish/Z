@@ -188,13 +188,8 @@ The following example covers **bold**, *italics*, <u>underline</u>, and ~~strike
 Font can be changed through an inline design edit.
 
 ```html
-<p>
-    This is the default font for paragraphs.
-</p>
-
-<p |style {font: "Calibri";}/>
-	This paragraph is in Calibri font.
-</p>
+<p>This is the default font for paragraphs.</p>
+<p |style {font: "Calibri";}/>This paragraph is in Calibri font.</p>
 ```
 
 ![](font.png)
