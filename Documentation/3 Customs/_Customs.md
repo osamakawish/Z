@@ -49,6 +49,14 @@ To make your layout, define your `<@/>` and `</@>` tags. If desired, you may str
 |child <li/></li>
 ```
 
+To access internal layout, use `</@/>`.
+
+```html
+</@/> {
+	
+}
+```
+
 Child controls can be private or public. 
 
 > The protected option is removed to resolve the fragile base class problem cleanly.
@@ -75,7 +83,7 @@ Works similarly to the styling layout, except now you don’t need to specify th
 
 ```css
 |placement {
-	.size.x: 22px;
+	.size.x: 22px
 }
 
 |appearance {
@@ -95,7 +103,7 @@ You can define custom traits for your control.
 
 ```Css
 |appearance {
-    +midcolor: color;
+    +midcolor: color
 }
 ```
 
@@ -103,8 +111,8 @@ The new traits may then later be used in the actual designing.
 
 ```css
 |appearance {
-    +button_color: color;
-    @.button fore: button_color;
+    +button_color: color
+    @.button fore: button_color
 }
 ```
 
@@ -119,12 +127,12 @@ For example, for a custom timer, you may want a tick event.
 ```css
 |import timer
 
-time: time; /* private trait */
-.text: time; /* public trait */
+time: time /* private trait */
+.text: time /* public trait */
 
 |events {
-    :(time t=0); /* constructor */
-    ticked:tick();
+    :(time t=0) /* constructor */
+    ticked:tick()
 }
 ```
 

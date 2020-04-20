@@ -16,6 +16,11 @@ They are ignored by the compiler and are mainly intended for developer use.
 
 A **control** is a component of a page, like a button, or text, or the navigation bar. Each control has an associated **tag**. Tags are just “words” to represent the controls, which are used in various contexts. The tag for buttons is `button` the tag for navigation bars is `nav`. 
 
+​	Notes:
+
+* Tag names of simple features start with decapitalized letters, while tag names of advanced features start with capital letters. 
+* Z uses camel case notation over underscores. You may implement your own controls using underscores if you like.
+
 #### Tags
 
 A tag containing text will look like this:
@@ -90,7 +95,7 @@ The body contains the main content of the page. All the text, images, navigation
 </body>
 ```
 
-Everything below goes into the body section.
+Everything in the essence of the page goes into the body section.
 
 ### Text
 
@@ -131,7 +136,7 @@ The above contains the Lorem Ipsum dummy text. The `(1)` argument shows the firs
 
 #### Clause
 
-A clause represents a part of a sentence in Z. It’s an optional child of a paragraph. There’s no difference in formatting in clauses than paragraphs. They can be edited differently in their [design](../2 Design/_Design.md) as desired. They are shortened to a `cl` tag.
+A clause represents a part of a sentence in Z. It’s typically a child of a paragraph. There’s no difference in formatting in clauses than paragraphs. They can be edited differently in their [design](../2 Design/_Design.md) as desired. They are shortened to a `cl` tag.
 
 ```html
 <p/>
@@ -166,7 +171,7 @@ Text formatting involves changing the colour or text or making it bold, italiciz
 
 Various coloring options will be added. 
 
-You can always create your own colours using the hexadecimal coloring code. The coloring in Z uses both RGB and RGBA formats. The colouring code is also generalized as follows
+You can always create your own colours using the hexadecimal coloring code. The coloring in Z uses both RGB and RGBA formats. The colouring code is also generalized as follows:
 
 * `#G`: Single Precision Greyscale.
 * `#GA`: Single Precision Transparent Greyscale.
@@ -191,7 +196,7 @@ Font can be changed through an inline design edit.
 
 ```html
 <p>This is the default font for paragraphs.</p>
-<p |style {font: "Calibri";}/>This paragraph is in Calibri font.</p>
+<p |style {font: "Calibri"}/>This paragraph is in Calibri font.</p>
 ```
 
 ![](font.png)
@@ -200,14 +205,21 @@ The style bit will be explained later in the design section. But what you’ve s
 
 ### Numbers
 
+A tag for numbers. This stores numbers specifically. It has its conveniences when we reach the [programming](../4 Programming/_Programming) aspect of Z.
+
 #### Int
 
 Basic integers, includes negative numbers and 0 if desired. For integer ranges, use `int[a:b]`. This gets the integers between a and b. 
 
 ```html
 <body/>
-    <int/>-12</int> <int/>0</int> <int/>284</int>
-	<int [0]/>0</int> <int [0:12]/>6</int> <int [0:]/>83</int> <int [:0]/>-50</int> 
+    <int/>-12</int> 
+	<int/>0</int> 
+	<int/>284</int>
+	<int [0]/>0</int> 
+	<int [0:12]/>6</int> 
+	<int [0:]/>83</int> 
+	<int [:0]/>-50</int> 
 <!-- <int [5]/>0</int> will be ignored and raise an error. Does not qualify under its type. -->
 <!-- <int [1:]/>0</int> will be ignored and raise an error. Does not qualify under its type. -->
 <!-- <int [-12:8]/>63</int> will be ignored and raise an error. Does not qualify under its type. -->
@@ -218,9 +230,25 @@ There’s no special formatting for integers. They’re treated as individual cl
 
 #### Floats
 
+Decimal values for making computations about incomplete quantities.
+
+> For those from other programming languages, Z only uses double precision floating points.  
+
+```html
+<p/>pi is <float/>3.14159</float>.</p>
+<p/>e is <float/>2.718</float>.</p>
+<p/>One half is <float/>0.5</float>.</p>
+```
 
 
-#### Fractions
+
+#### Ratios
+
+Ratios and fraction allow for simpler computations of fractions. It’s worth noting that they’re not necessarily faster than floats. By default, ratio’s will be displayed with a colon `:` as opposed to a slash `/` as used in fractions. 
+
+```html
+<p>One-third is <ratio/>1/3</ratio></p>. 
+```
 
 
 
@@ -229,37 +257,147 @@ There’s no special formatting for integers. They’re treated as individual cl
 Span are for measurements. They are only read if they end in the defined measurable unit. or contain numbers only.
 
 ```html
-<span [int]('px')/>12px</span>
+<span [int](px)/>12px</span>
 ```
+
+Acceptable units are: px, pt, in, cm, ft, etc.
 
 Note that if it does contain only numbers, the units will be added to the end by default. You can change the formatting later when you get to the [Design](../2 Design/_Design.md) section.
 
 The `[int]` denotes the span is an integer type. These are for templated types.
 
-### Lists
-
-List are a set of ordered items. They contain immediate children `li`. 
-
 ```html
-<list/>
-    <li/>Item 1</li>
-    <li/>Item 2</li>
-    <li/>Item 3</li>
-    <li/>Item 4</li>
-</list>
+<!-- One foot in different measurements given a dpi. -->
 ```
 
 
 
+### Lists
+
+List are a set of ordered items and are represented with the `l` tag. They contain immediate children `li`. 
+
+```html
+<l/>
+    <li/>Item 1</li>
+    <li/>Item 2</li>
+    <li/>Item 3</li>
+    <li/>Item 4</li>
+</l>
+```
+
+The default list above only indents the items.
+
 #### Ordering
 
-Use `ul` for unordered lists and `ol` for ordered lists.
+Use `l (0)` for unordered lists and `l (1)` for ordered lists.
+
+```html
+<p> An unordered list:
+<l (0)/>
+    <li/>Item 1</li>
+    <li/>Item 2</li>
+    <li/>Item 3</li>
+    <li/>Item 4</li>
+</l>
+</p>
+
+<p> An ordered list:
+<l (1)/>
+    <li/>Item 1</li>
+    <li/>Item 2</li>
+    <li/>Item 3</li>
+    <li/>Item 4</li>
+</l>
+</p>
+```
+
+The argument stands for “increment”. An increment of 0 means the numbering of the list items don’t increase or decrease, and so the list is unordered.
 
 #### Menu
 
-A menu is a list of buttons that link to a different page. They inherit [a](####Links) (for links) and lists. 
+A menu is a list of buttons that link to a different page. They inherit [a](####Links) (for links) and lists. Use argument `menu` for making menus. 
+
+```html
+<p> An unordered list:
+<l (menu)/>
+    <li/>Item 1</li>
+    <li/>Item 2</li>
+    <li (1)/>Item 3</li>
+    <li/>Item 4</li>
+</l>
+</p>
+```
+
+![](menu.png)
+
+Item 3 is selected. Item 2 is being hovered over. Too many items in a menu is generally discouraged.
 
 #### Dropdown List
+
+The argument is `drop` for dropdown lists.
+
+```html
+<p> An unordered list:
+<l (drop)/>
+    Initial Text.
+    <li/>Item 1</li>
+    <li/>Item 2</li>
+    <li/>Item 3</li>
+    <li/>Item 4</li>
+</l>
+</p>
+```
+
+![](drop.png)
+
+Again, Item 3 is being hovered in this example. 
+
+### Inputs
+
+Inputs are for taking user input. They use the `in` tag.
+
+#### Combo
+
+Combo boxes are different than dropdown menus in that an item can be selected.
+
+
+
+#### Text
+
+Text inputs can be in the form of lines or blocks. 
+
+##### Lines
+
+
+
+##### Blocks
+
+
+
+#### Integer
+
+Here’s an example that combines user input with code insertion.
+
+```html
+<p/>
+    Pick two numbers:
+</p>
+    
+<in [int(0:999)] @x>
+<in [int(0:999)] @y>
+    
+<p/>
+	Their sum is @x + @y = {@x + @y}. 
+</p>
+```
+
+![](in-inline-code.png)
+
+This above element is an advanced **slider** (and it contains a simple slider), and you easily substitute the tag with `<Slider (0:999)>` if you preferred. For the simpler slider, use `<slider (0:999)>`. 
+
+> Combo boxes have been removed. They are generally specific to large devices. Device-specific controls have been removed. The gauge has been designed to be device-independent.
+
+#### Floats
 
 
 
@@ -268,19 +406,19 @@ A menu is a list of buttons that link to a different page. They inherit [a](####
 Breaks are to add breaks in between lines. There are two types of breaks in Z: the soft break and the hard break. The **soft break** is for line breaks and adding spacing between paragraphs if desired. The **hard break** is for adding a break between two paragraphs, and generally adds a line between them. Use `<br>` for a soft break and `<Br>` for a hard break.
 
 ```html
-<p>
+<p/>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et blandit justo. Donec ac sapien ornare, sagittis tellus quis, condimentum justo. Aenean porta felis tincidunt ultrices sodales. Nullam ut lacinia mi. Vestibulum egestas euismod elit quis consectetur. Curabitur luctus ex et ipsum dictum, ornare malesuada purus dictum. In hac habitasse platea dictumst. Nulla bibendum, orci laoreet cursus accumsan, nunc diam commodo lorem, nec pulvinar felis dui eu ante. Sed sed metus nec mi lacinia luctus ut eget risus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent quis mauris mauris. Nulla tempus et mauris non eleifend. Donec tempor quam nec orci elementum, quis placerat massa gravida. Fusce sagittis felis in dolor fringilla, ut tincidunt urna feugiat. Nam et magna dui. Aenean sed iaculis dui.
 </p>
 
 <br>
 
-<p>
+<p/>
 Vestibulum cursus urna in justo tempus tempus. Suspendisse ullamcorper fringilla est non sagittis. Nam ut molestie purus, sit amet semper dolor. Aenean malesuada ligula ut velit convallis, sit amet porttitor ante viverra. Ut quis bibendum dolor. Duis pulvinar ex nec consectetur malesuada. Vivamus fermentum tellus eu molestie faucibus. Nam luctus aliquet lacus, non gravida dui accumsan sed. Integer eget tempus nulla. Integer quis pretium purus. Donec at tincidunt turpis. Aliquam et enim mollis diam dapibus iaculis ut at nibh. Vestibulum libero quam, convallis eget semper pulvinar, aliquet et turpis.
 </p>
 
 <Br>
 
-<p>
+<p/>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lectus tortor, vestibulum elementum varius vel, hendrerit sed ante. Aenean nisl sem, pretium eu tincidunt eu, condimentum ac sapien. Etiam at erat sapien. Nulla pharetra auctor risus, at molestie nisi sagittis nec. Donec tempus libero suscipit ligula interdum molestie. Fusce id auctor risus. Vestibulum sed dolor augue. Sed posuere tincidunt nisi. Quisque luctus justo id tellus consectetur vestibulum. Curabitur eget rutrum purus. In eros mauris, aliquam nec condimentum in, malesuada sit amet odio. Nullam venenatis vel tortor ut placerat. Nullam condimentum, massa at rutrum imperdiet, nisi ante vestibulum est, tempor dictum turpis est nec mi. Donec ullamcorper dictum mauris, vel auctor neque rhoncus et.
 </p>
 ```
@@ -305,29 +443,81 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lectus tortor, vest
 
 This produces the exact same result as before.
 
-### Tables
+### Grids
 
+Grids can either be defined by their rows or columns.
 
+If the number of cells in each row/column aren’t the same, the grid will add empty cells for that row/column. 
+
+```html
+<grid/>
+	<row/>
+		<cell/>1</cell>
+		<cell/>2</cell>
+		<cell/>3</cell>
+		<cell/>4</cell>
+	</row>
+	<row/>
+		<cell/>5</cell>
+		<cell/>6</cell>
+		<cell/>7</cell>
+	</row>
+	<row/>
+		<cell ((),())/>8</cell> <!-- Multiple arguments better off styled like this -->
+		<cell/></cell>
+		<cell/></cell>
+		<cell/></cell>
+	</row>
+</grid>
+```
+
+Arguments:
+
+* Breadth: Relative sizing of row/column to other row/columns
+* Stretch: How many other columns/rows the cell replaces
 
 ### References
 
-References link to external pages or images.
+References links to external pages or images.
 
 #### Links
 
+Links use the `a` tag. You can use this to link to other files, images, or pages. By itself, the `a` tag shows a preview if possible. 
 
+```html
+<p/>
+    Here's a link to <a (www.google.com/)/>Google</a>.
+</p>
 
-#### Images
+<p/>
+    Here's another link to Google:
+</p>
+<a (www.google.com/)>
+```
 
+![](links.png)
 
+The lower component with the black background is called a **precis**. To hide the precis, add a `0` to the second argument:
 
-#### Files
+```html
+<A (www.google.com/, 0)/>
+	Here's another link to Google. 
+</A>
+```
 
+`![](no-precis.png)
 
-
-## Code Insertion
+## Inline Code
 
 Code can generally be inserted anywhere with `{ }`. For this, you’ll need to go over the [programming](../4 Programming/_Programming).
+
+```html
+<body/>
+    
+</body>
+```
+
+
 
 ## Fusion
 
@@ -370,6 +560,8 @@ For another example, a **menu** is a list of buttons that link to a different pa
 
 Rules for control fusion: Similar to inheriting both classes at the same time. 
 
+
+
 ## Variables
 
 For those of HTML/CSS background, variables substitute ids and classes. Variables can later be used to have their design edited via a relevant Z Design file. A single variable may be used with multiple elements.
@@ -388,3 +580,28 @@ For example:
 
 Design changes can be made inline. This feature is offered so as to not create a whole separate file for when there’s only minor changes to be made. 
 
+As an introduction, the design component is grouped into 3 components:
+
+* `facet`: for the size, dimensions, and positioning of the element
+* `style`: for the appearance of the element: includes the font, border styling, and coloring of the element
+* `react`: for handling reactions to various events such as mouse clicks and keyboard presses
+
+To access these, we have a keyword identifier `|`.
+
+To make changes in the position or dimensions, for example, we insert the `|facet` as follows:
+
+```html
+<button |facet {pos.x: {pos.x+1}px;}/>
+    Click me!
+</button>
+```
+
+
+
+Introduction to inline designing is a good place to end this.
+
+
+
+## HTML Contrasts
+
+* The ZLF (Z language framework) is designed to be device-independent, so device specific controls such as combo boxes have removed.

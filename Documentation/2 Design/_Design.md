@@ -23,8 +23,7 @@ A **control** is a type of element in a webpage such as a paragraph, heading, im
 - ***The programming is purely event-driven OOP.*** All programming is primarily focused on event handling. To deal with repeatable code, OOP is added. 
   - Background programming such as timers/clocks are handled with controls mentioned in the head.
 - (Note: It’ll likely be cleaner if `|facet` is moved outside and the facet of all variables is addressed at once, as opposed to variable by variable).
-
-
+- Semicolons removed. The semicolon offers an additional purpose in our code. 
 
 ## Traits
 
@@ -88,7 +87,7 @@ The z-index is set as follows:
 
 ```css
 |facet {
-element {z: 2;}
+element {z: 2}
 }
 ```
 
@@ -178,33 +177,36 @@ Colour `#f` is equivalent to `#fff` which is equivalent to `#ffffff`. `@counter`
 ```css
 |facet {
     body {
-        back: #e3e3e3;
+        back: #e3e3e3
     }
     
     int, button {
-        pos.x: 50% 50%;
-        pad: 50%;
-        size: 400px 200px;
+        pos.x: 50% 50%
+        pad: 50%
+        size: 400px 200px
     }
     
     @counter {
-        pos: 200px 50px;
+        pos: 200px 50px
     }
     
     button {
-        pos: 200px 300px;
-        size.x: 200px;
+        pos: 200px 300px
+        size.x: 200px
     }
 }
 
 |style {
-    @counter { border: #f 1px; }   
-    button { fore: #ff2b2b; back: #3; }
+    @counter { border: #f 1px }   
+    button { 
+        fore: #ff2b2b
+        back: #3 
+    }
 }
 
 |react {
     button {
-        mouse { press: { @counter.content++; } }
+        mouse { press: { @counter.content++ } }
     }
 }
 ```
@@ -260,7 +262,7 @@ Example:
 
 ```css
 |facet {
-    button { rel.x: {rel.x+20}px; }
+    button { rel.x: {rel.x+20}px }
 }
 ```
 
@@ -279,7 +281,7 @@ Inheritance in M works similarly to CSS. However, instead of a space, a `.` is u
 Beyond inheritance, the `.` is also used for trait components. For example, let's say you want to only change the horizontal position of an element. You'd do something like this:
 
 ```css
-pos.x: 5;
+pos.x: 5
 ```
 
 You should think of the `.` as represent a way to access *internal* concepts. In the context of inheritance of elements, this refers to child elements inside their parent elements. In the context of traits, this refers to internal traits of composite traits - that is, position being the composite trait composed of internal traits x- and y- positions.
@@ -297,7 +299,7 @@ To access the parent element, use `\`. To access the nearest parent paragraph of
 ```css
 |facet {
     @child {
-        @\body z: 3; /* alternatively, use @\\ in this case */
+        @\body z: 3 /* alternatively, use @\\ in this case */
     }
 }
 ```
