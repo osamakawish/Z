@@ -373,7 +373,7 @@ Text inputs can be in the form of lines or blocks.
 
 ![](text-forms.png)
 
-#### Integer
+#### Numbers
 
 Here’s an example that combines user input with code insertion.
 
@@ -382,8 +382,8 @@ Here’s an example that combines user input with code insertion.
     Pick two numbers:
 </p>
     
-<in [int(0:999)] @x>
-<in [int(0:999)] @y>
+<in [0:999] @x>
+<in [0.00:1.00] @y>
     
 <p/>
 	Their sum is @x + @y = {@x + @y}. 
@@ -392,7 +392,7 @@ Here’s an example that combines user input with code insertion.
 
 ![](in-inline-code.png)
 
-This above element is a **slider** and it has the tag `<Slider [int](0:999)>`.
+This above element is a **slider**. The `in` tag can be substituted with `Slider`. 
 
 Features:
 
@@ -406,10 +406,6 @@ Features:
 This substitutes combo boxes and sliders for a single element. The purpose for this being that the above slider is now device-independent in its behaviour.
 
 > Combo boxes have been removed. They are generally specific to large devices. Device-specific controls have been removed. The gauge has been designed to be device-independent.
-
-#### Floats
-
-
 
 ### Breaks
 
@@ -523,7 +519,7 @@ Code can generally be inserted anywhere with `{ }`. For this, you’ll need to g
 
 ```html
 <body/>
-    
+    2 ^ 4 is {2 ^ 4}.
 </body>
 ```
 
@@ -568,7 +564,7 @@ For another example, a **menu** is a list of buttons that link to a different pa
 </drop menu>
 ```
 
-Rules for control fusion: Similar to inheriting both classes at the same time. 
+Rules for control fusion: Similar to inheriting both classes at the same time.
 
 
 
@@ -601,16 +597,18 @@ To access these, we have a keyword identifier `|`.
 To make changes in the position or dimensions, for example, we insert the `|facet` as follows:
 
 ```html
-<button |facet {pos.x: {pos.x+1}px;}/>
+<button |facet {pos: {pos+(20,20)px};}/>
     Click me!
 </button>
 ```
 
+![](inline-design.png)
 
+The above demonstrates how the code changes the button’s position.
 
 Introduction to inline designing is a good place to end this.
 
-
+------
 
 ## HTML Contrasts
 
