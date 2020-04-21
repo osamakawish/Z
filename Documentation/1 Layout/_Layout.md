@@ -352,27 +352,26 @@ The argument is `drop` for dropdown lists.
 
 Again, Item 3 is being hovered in this example. 
 
-### Inputs
+### Inputs & Forms
 
-Inputs are for taking user input. They use the `in` tag.
+Inputs and forms are for taking user input. They use the `in` tag.
 
 #### Combo
 
 Combo boxes are different than dropdown menus in that an item can be selected.
 
-
+Their initial view and behaviour is similar to a 
 
 #### Text
 
 Text inputs can be in the form of lines or blocks. 
 
-##### Lines
+```html
+<in (line)>Write text here.</in>
+<in (block)>Write text here.</in>
+```
 
-
-
-##### Blocks
-
-
+![](text-forms.png)
 
 #### Integer
 
@@ -393,7 +392,18 @@ Here’s an example that combines user input with code insertion.
 
 ![](in-inline-code.png)
 
-This above element is an advanced **slider** (and it contains a simple slider), and you easily substitute the tag with `<Slider (0:999)>` if you preferred. For the simpler slider, use `<slider (0:999)>`. 
+This above element is a **slider** and it has the tag `<Slider [int](0:999)>`.
+
+Features:
+
+* Slider
+  * Hold & Move: slider slider
+  * Double-tap/click: Change value by custom input
+* Arrows
+  * Tap/hold: move slider in given direction
+  * Double tap/click: Move slider to min/max
+
+This substitutes combo boxes and sliders for a single element. The purpose for this being that the above slider is now device-independent in its behaviour.
 
 > Combo boxes have been removed. They are generally specific to large devices. Device-specific controls have been removed. The gauge has been designed to be device-independent.
 
