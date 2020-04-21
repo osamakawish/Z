@@ -254,6 +254,8 @@ Visibility doesn't need to change. The text won't be overflowing the boundary, w
   * Time: `time` [source]
   * Specifics
 
+# Advanced Styling
+
 ## Code Insertion
 
 For code insertion in any part of the code, use `{ }`.
@@ -268,41 +270,9 @@ Example:
 
 The programming language used by M will be covered later. 
 
-## Composition
+## Advanced Features
 
-Composition allows individuals to make traits or elements relative to something other than their parent. 
-
-As this does go against the semantic consistency of inheritance, I'd personally not recommend it unless absolutely necessary (such as 3d graphics - where parts of one object may be partially in front of and behind another). But, it offers developers more "freedom", should they ever need it. 
-
-### Properties
-
-Inheritance in M works similarly to CSS. However, instead of a space, a `.` is used for inheritance. For example, `p.span` receives all span elements in paragraphs. 
-
-Beyond inheritance, the `.` is also used for trait components. For example, let's say you want to only change the horizontal position of an element. You'd do something like this:
-
-```css
-pos.x: 5
-```
-
-You should think of the `.` as represent a way to access *internal* concepts. In the context of inheritance of elements, this refers to child elements inside their parent elements. In the context of traits, this refers to internal traits of composite traits - that is, position being the composite trait composed of internal traits x- and y- positions.
-
-In general, the `.` is the **property operator**. Child elements are *properties* of their parent elements. Internal traits are *properties* of their composite traits. That is, the properties operator accesses properties. 
-
-You've seen this in action already.
-
-To access children of children, use `..`.
-
-### Composition
-
-To access the parent element, use `\`. To access the nearest parent paragraph of an element (should it have one), use `\p`. To access parents of parents, use `\\`.
-
-```css
-|facet {
-    @child {
-        @\body z: 3 /* alternatively, use @\\ in this case */
-    }
-}
-```
-
-![](Z_Index_Composition.png)
+* Facet: 
+* Style: Shadows, blur, 3d, bevel, border shape
+* React: Specific Events
 
