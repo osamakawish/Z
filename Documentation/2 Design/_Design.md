@@ -9,7 +9,7 @@ A **control** is a type of element in a webpage such as a paragraph, heading, im
 - ***Everything is with respect to the parent element in M.*** If you want to fix something in the body, move it inside the body element. Otherwise, it will remain fixed ***within its parent***. If its parent moves, it will inevitable move along with it. There are numerous reasons for this:
   - **Semantic Consistency.** This is to say we maintain the idea of what it means to be a parent element. Allowing users to control the position of a label in the entire body of the webpage (as in CSS's fixed/sticky positioning) inside a div raises the question of why the label is placed in the div and simply not placed in the body, where it can be moved freely.
   - **Aesthetic appeal.** Concepts like overflow make no sense from an aesthetic point of view. Their presence offers users the freedom, should they choose to use it, but it is, aesthetically absurd - the overflow of text raises the question of why not simply stretch the parent element to keep up with the text. Concepts like overflow also defy the rule of semantic consistency - why have the block of div with its dimensions as parent of the element if the text was simply going to overflow it? The alternative solution here is `height:flex` which updates the height of the element as the content changes.
-  - **Common Intent.** Let's say I want a graphical drawing element. Should I position and control the curve relative to the body, or to the element itself? In general, as far as common intentions go for having such a graphical drawing element, controlling the points on the curves relative to the element itself makes far more sense. Of course, the code for reaction of the mouse press will consider the press position relative to the element itself as well. The common intent covers the common intention for why an element is used in the way it is.
+  - **Common Intent.** Let's say I want a graphical drawing element. Should I position and control the curve relative to the body, or to the element itself? In general, as far as common intentions go for having such a graphical drawing element, controlling the points on the curves relative to the element itself makes far more sense. Of course, the code for reaction of the |mouse press will consider the press position relative to the element itself as well. The common intent covers the common intention for why an element is used in the way it is.
   - **Ease of Development.** This is a point that argues it is easier on the developers coding the parsers of M to have an easier time. When everything is relative to the parent, they only need to think about how an element relates to its parent, as opposed to the whole picture. Furthermore, this forces web developers to write readable and intuitive code, as they can't simply facet an element inside a div and hope to move it outside the element. 
 - Many CSS concepts are removed or changed for simplicity. 
   - ~~CSS's **Display** isn't included. Everything is the CSS inline-block by default. Setting width and height to `flex` will make anything inline. To create a block, simply add a line break.~~
@@ -97,7 +97,7 @@ The `align` property sets the default alignment of the child items. This can be 
 
 #### Spread
 
-The spread of the child elements.
+The default spread of the child elements.
 
 #### Drag
 
@@ -130,9 +130,9 @@ Note the order in which the numbers are written. In `flow:x`, the numbers are in
 
 Maximum Content Size = Size - Padding.
 
-#### Hue
+#### Tint
 
-Hue uses both RGB and RGBA formats. The colouring code is also generalized.
+Tint uses both RGB and RGBA formats. The colouring code is also generalized.
 
 * `#G`: Single Precision Greyscale.
 * `#GA`: Single Precision Transparent Greyscale.
@@ -141,7 +141,9 @@ Hue uses both RGB and RGBA formats. The colouring code is also generalized.
 * `#RRGGBB`: Double Precision Colour.
 * `#RRGGBBAA`: Double Precision Transparent Colour.
 
-The `color` trait represents two hues: fore and back, in that order. 
+Tints also use the saturation and value from the HSV model (we use HSV over HSL for the slight benefit in efficiency). 
+
+The `color` trait represents two tints: fore and back, in that order. 
 
 #### Visibility 
 
@@ -168,7 +170,21 @@ Sets the font of any internal text.
 
 ### React
 
-The react affects the control's reactions to various situations such as hovering, pressing, etc.
+The `react` section affects the control's reactions to various situations such as hovering, pressing, etc.
+
+#### Mouse Events
+
+During mouse event computations, the computed position of the mouse will **always** be relative to the element.
+
+
+
+#### Key Events
+
+
+
+#### Time Events
+
+
 
 ### Example
 
@@ -206,7 +222,7 @@ Colour `#f` is equivalent to `#fff` which is equivalent to `#ffffff`. `@counter`
 
 |react {
     button {
-        mouse { press: { @counter.content++ } }
+        |mouse { press: { @counter.content++ } }
     }
 }
 ```
@@ -224,7 +240,7 @@ Visibility doesn't need to change. The text won't be overflowing the boundary, w
 
 ### Trait Tree
 
-* `facet`
+* `|facet`
   * Position
     * Relative Position: `rel rel.x rel.y` (area span span)
     * Absolute Position: `abs abs.x abs.y` (area span span)
@@ -236,22 +252,22 @@ Visibility doesn't need to change. The text won't be overflowing the boundary, w
   * Alignment: `align align.x align.y` (area span span)
   * Drag: `drag drag.x drag.y` (xbool[2] xbool xbool)
   * Flow: `flow` (axis)
-* `style`
+* `|style`
   * Visibility: `visibility` (enum)
   * Scroll: `scroll` (xbool - extended Boolean)
-  * Border: `border` (hue span[4])
+  * Border: `border` (tint span[4])
   * Colour: `color`
-    * Foreground Colour: `fore` (hue)
-    * Background Colour: `back` (hue)
-* `react`
-  * Mouse: `mouse` [source]
+    * Foreground Colour: `fore` (tint)
+    * Background Colour: `back` (tint)
+* `|react`
+  * mouse: `|mouse` [source]
     * Press: `press` [event]
     * Double-Press: `press2` [event]
     * Hover: `hover` [event]
     * Move: `move` [event]
     * Scroll: `scroll` [event]
-  * keyboard: `key` [source]
-  * Time: `time` [source]
+  * keyboard: `|key` [source]
+  * Time: `|time` [source]
   * Specifics
 
 # Advanced Styling
@@ -272,7 +288,21 @@ The programming language used by M will be covered later.
 
 ## Advanced Features
 
-* Facet: 
-* Style: Shadows, blur, 3d, bevel, border shape
+* Facet: 3d layering
+* Style: Shadows, blur, 3d, bevel, border shape, color edit
 * React: Specific Events
 
+### 3D Layering
+
+
+
+### Color Editing
+
+* Photo coloring
+
+* Saturation
+* Lightness
+
+### Specific Events
+
+Specific events are when events specific to a control occur.
