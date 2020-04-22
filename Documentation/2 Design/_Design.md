@@ -43,23 +43,66 @@ The padding and margin can also be used for alignment.
 
 It's worth noting that these all use both % and pixels for measurement. A float of 100% moves the object to the left.
 
-* **Spread.** Determines the default spread of child elements. `0` represents no default spread. `1` represents equally spread out elements. 
-* **Alignment.** Relative positioning of child elements to content. (Note: there's no `text-align`. If the block is a text element, it will be implicitly aligned according to the alignment). (From *edge of content* to within padding)
-* **Padding.** Controls how close the content is allowed to get to edges of the block. (From *edge of block* to *edge of content*)
-* **Size.** The size of the block itself, containing the padding with the content. If the horizontal or vertical padding is greater than or equal to a total of 100%, then the content is distributed in proportion of the padding ratio. (ie. If the horizontal padding is left 30% and right 70%, the content is centered to 30% from the left). Use `size.x` for width and `size.y` for height. (Total size of *block*)
+* **Children Positioning.**
+  * **Flow.** Represents the continuity of the child elements. 
+    * **Alignment.** Relative positioning of child elements to content. (Note: there's no `text-align`. If the block is a text element, it will be implicitly aligned according to the alignment). (From *edge of content* to within padding) (Should this be in children or internal positioning?)
+    * **Angle.** The direction of the flow.
+    * **Rest.** How additional elements are added once the end of the flow direction is reached. (xbool: 0 = finish, 1 = continue as usual, and auto = split contents)
+  * **Spread.** Determines the default spread of child elements. `0` represents no default spread. `1` represents equally spread out elements.
+* **Internal Positioning.** 
+  * **Padding.** Controls how close the content is allowed to get to edges of the block. (From *edge of block* to *edge of content*)
 * **Border.** Controlled in `styles`. Precisely speaking, it's outside the padding (as opposed to being inside or along/over the edge of padding). Use `border.x` and `border.y` for horizontal and vertical components respectively. If greater than margin, it will be equal to the size of the margin. (Line outside of *block*, inside of *margin*.)
-* **Margin.** The extra spacing away from the block that nearby elements must provide to this specific block. Restricts the border. (Space from the *block*, to the *nearest possible sibling element*)
-* **Position.** Either the relative or final position may be set, but not both. If both are set, then M will take the one defined later. The relative position will change as the final is changed and vice versa. `abs abs.x abs.y`  denote the absolute position traits of the element, and cannot be changed. `rel rel.x rel.y` denote the relative positions. For final position, use `pos pos.x pos.y`. 
-* **Flow.** Represents the continuity of the element relative to its previous sibling element (if any). 
+  * **Size.** The size of the block itself, containing the padding with the content. If the horizontal or vertical padding is greater than or equal to a total of 100%, then the content is distributed in proportion of the padding ratio. (ie. If the horizontal padding is left 30% and right 70%, the content is centered to 30% from the left). Use `size.x` for width and `size.y` for height. (Total size of *block*)
+* **External Positioning.**
+  * **Margin.** The extra spacing away from the block that nearby elements must provide to this specific block. Restricts the border. (Space from the *block*, to the *nearest possible sibling element*)
+  * **Position.** Either the relative or final position may be set, but not both. If both are set, then M will take the one defined later. The relative position will change as the final is changed and vice versa. `abs abs.x abs.y`  denote the absolute position traits of the element, and cannot be changed. `rel rel.x rel.y` denote the relative positions. For final position, use `pos pos.x pos.y`. 
 
 The border is a part of the style, not the facet in M.
 
-***Why so many layers?***
+#### Flow
 
-To answer this, we first need to look at things relative to the <u>border</u>. 
+Represents the default positioning of each consecutive child item. 
 
-* The padding and alignment determine the overall facet of the content **within the block**. Along the edge of the block, we have the border. 
-* Outside the border, the margin and position determine the facet of the *block itself* **within the parent**. And that's how we get all the layers we do.
+##### Axis
+
+Examples:
+
+* The elements in a paragraph flow horizontally. So the paragraph element has `flow.axis:x`.
+* The elements in a body flow vertically. So the body element has `flow.axis:y`. 
+
+All elements will use remaining space in the other direction of their parent element when filled.
+
+![](flow.png)
+
+Note the order in which the numbers are written. In `flow.axis:x`, the numbers are in order from left to right. In `flow.axis:y`, the numbers are ordered from left to right. In `flow.axis: y`, they’re ordered top to bottom.
+
+##### Alignments
+
+The `align` property sets the default alignment of the child items. This can be overridden by a child item's float property if desired.
+
+![](flow-align.png)
+
+You may also use `align: 0` for centralizing child elements.
+
+The `align` trait also takes a second input, for the secondary alignment, in case of “overflow”. 
+
+##### Spill
+
+The `flow.spill` trait determines how the child elements flow once the limit in a given direction is reached.
+
+The axis set by `flow.axis` is the *primary axis* for the flow. The spill determines how the elements continue to flow.
+
+In Z, when there are more elements in their given flow direction, they start a new “line”, just as text starts a new line once it reaches its end of line. 
+
+Values:
+
+* `bool`:
+  * 0: Stops adding new items.
+* `align.value`: aligns the content in the secondary axis. By default, this is `-1`. 
+
+> This is **not** the same as CSS’s overflow property. Flowing beyond the border of a parent element is not possible in Z.
+
+
 
 #### Position
 
@@ -81,7 +124,7 @@ The parent of each "Parent" above is the "Body" element. Each child item is the 
 
 The z-index in M works like this:
 
-***If a sibling element has a higher z-index, it and its child items will overlap the element with the lower z-index, as well as all its child elements.***
+***If a sibling element has a higher z-index, it will overlap the element with the lower z-index, as well as all its child elements.***
 
 The z-index is set as follows:
 
@@ -90,10 +133,6 @@ The z-index is set as follows:
 element {z: 2}
 }
 ```
-
-#### Alignments
-
-The `align` property sets the default alignment of the child items. This can be overridden by a child item's float property if desired.
 
 #### Spread
 
@@ -108,21 +147,6 @@ Controls how the element moves relative to the scrolling of its parent element.
 * Use `drag: auto` for the CSS sticky feature. Note: the sticky is only implemented relative to the parent element.
 
 Again, since everything is relative to the parent item, the drag is only compared to the scrolling of the parent item, not the page.
-
-#### Flow
-
-Represents whether the content of the element flow vertically or horizontally. 
-
-Examples:
-
-* The elements in a paragraph flow horizontally. So the paragraph element has `flow:x`.
-* The elements in a body flow vertically. So the body element has `flow:y`. 
-
-All elements will use remaining space in the other direction of their parent element when filled.
-
-![](flow.png)
-
-Note the order in which the numbers are written. In `flow:x`, the numbers are in order from left to right. In `flow:y`, the numbers are ordered from left to right. In `flow: y`, they’re ordered top to bottom.
 
 ### Style
 
@@ -141,32 +165,54 @@ Tint uses both RGB and RGBA formats. The colouring code is also generalized.
 * `#RRGGBB`: Double Precision Colour.
 * `#RRGGBBAA`: Double Precision Transparent Colour.
 
-Tints also use the saturation and value from the HSV model (we use HSV over HSL for the slight benefit in efficiency). 
+Tints also use the saturation and value from the HSV model (we use HSV over HSL for the slight benefit in efficiency). Both saturation and value also take hexadecimal values. The notation for saturation and value is the following:
+
+```C#
+#G & S ^ V
+#GA & S ^ V
+#RGB & S ^ V
+#RGBA & S ^ V
+#RRGGBB & SS ^ VV
+#RRGGBBAA & SS ^ VV
+// Note: need to swap & with ^, I think.
+```
 
 The `color` trait represents two tints: fore and back, in that order. 
 
-#### Visibility 
+#### Exist
 
-The visibility model affects how the element is shown or hidden.
+The `exist` trait affects how the element is shown or hidden.
 
-* void: hides the element as if it was never there.
-* hide: hides the element as if it is an invisible block which other elements cannot pass through.
-* show: restricts the content to remain within the padding, without ever adding a scrollbar.
-
-Note that restrict does nothing when either height or width are set to flex.
+* 0: hides the element as if it was never there.
+* auto: hides the element as if it is an invisible block which other elements cannot pass through.
+* 1: shows the content.
 
 The style is about the colours and the border, which control the overall style of the element.
+
+Note how the blue and green element below change and move as the blue element’s `exist` value changes.
+
+The blue text always corresponds to the `exist` value of the blue element and the green text always corresponds to the `exist` value of the green element. 
+
+![](exist.png)
 
 #### Scroll
 
 * scroll: adds a scroll bar when content is larger than its maximum width or height.
-  * auto: shows the scroll bar only when necessary
+  * auto: exists the scroll bar only when necessary
   * 0: Always hide the scroll bar (default)
-  * 1: always shows the scroll bar
+  * 1: always exists the scroll bar
+
+
 
 #### Font
 
 Sets the font of any internal text.
+
+```css
+
+```
+
+
 
 ### React
 
@@ -236,7 +282,7 @@ Colour `#f` is equivalent to `#fff` which is equivalent to `#ffffff`. `@counter`
 
 ![](Increment_Example.png)
 
-Visibility doesn't need to change. The text won't be overflowing the boundary, we want the button to show, and it is on restrict by default.
+Visibility doesn't need to change. The text won't be overflowing the boundary, we want the button to exist, and it is on restrict by default.
 
 ### Trait Tree
 
@@ -294,14 +340,22 @@ The programming language used by M will be covered later.
 
 ### 3D Layering
 
-
+3D layering can still be accomplished 
 
 ### Color Editing
 
 * Photo coloring
 
-* Saturation
-* Lightness
+#### Saturation
+
+
+
+#### Value
+
+
+
+* Saturation & Value
+  * & `VV`
 
 ### Specific Events
 
